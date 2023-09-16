@@ -53,8 +53,8 @@ pipeline {
 
                     sh 'docker start big_data_third_lab-model-1'
                     
-                    echo "Waiting 60 seconds for entrypoint script"
-                    sleep 60
+                    echo "Waiting 30 seconds for entrypoint script"
+                    sleep 30
                     
                     sh  '''
                         docker start big_data_third_lab-cassandra-1
@@ -69,7 +69,7 @@ pipeline {
         stage('Checkout coverage report') {
             steps {
                 sh  '''
-                    docker logs --tail 30 -f big_data_third_lab-model-1
+                    docker logs --tail 60 -f big_data_third_lab-model-1
                     '''
             }
         }
