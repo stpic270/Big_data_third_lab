@@ -66,7 +66,7 @@ pipeline {
                 }
             }
             
-        stage('Check coverage report') {
+        stage('Checkout coverage report') {
             steps {
                 sh  '''
                     docker logs --tail 60 -f big_data_third_lab-model-1
