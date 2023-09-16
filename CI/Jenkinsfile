@@ -58,7 +58,8 @@ pipeline {
                 sh  '''
                     docker start big_data_third_lab-cassandra-1
                     docker exec big_data_third_lab-cassandra-1 bash -c "echo '\n' >> config/cassandra_ip.txt && ip -4 -o address >> config/cassandra_ip.txt"
-                    docker exec -i big_data_third_lab-model-1 bash -c "scripts/cassandra.sh"
+                    docker exec -t -i big_data_third_lab-model-1 bash -c "scripts/cassandra.sh"
+                    docker compose stop
                     '''
                 }
             }
@@ -66,7 +67,7 @@ pipeline {
         stage('Checkout container logs') {
             steps {
                 sh  '''
-                    docker logs --tail 20 -f big_data_third_lab-model-1
+                    docker logs --tail 30 -f big_data_third_lab-model-1
                     '''
             }
         }
@@ -89,7 +90,7 @@ pipeline {
         
         stage('Post always'){
             steps{
-                 sh 'docker compose down && docker logout'
+                 sh 'docker logout'
             }
         }
     }
