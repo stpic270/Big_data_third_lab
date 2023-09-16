@@ -66,20 +66,11 @@ pipeline {
                 }
             }
             
-        stage('Checkout container logs') {
+        stage('Checkout coverage report') {
             steps {
                 sh  '''
                     docker logs --tail 30 -f big_data_third_lab-model-1
                     '''
-            }
-        }
-        stage('Checkout coverage report'){
-            steps{
-                dir("Big_data_third_lab"){
-                    sh '''
-                    docker compose logs -t --tail 20 big_data_third_lab-model-1
-                    '''
-                }
             }
         }
 
