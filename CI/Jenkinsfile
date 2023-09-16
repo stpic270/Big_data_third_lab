@@ -49,18 +49,20 @@ pipeline {
             
         stage('Start containers'){
             steps{
+                dir("Big_data_third_lab"){
 
-                sh 'docker start big_data_third_lab-model-1'
-                
-                echo "Waiting 60 seconds for entrypoint script"
-                sleep 60
-                
-                sh  '''
-                    docker start big_data_third_lab-cassandra-1
-                    docker exec big_data_third_lab-cassandra-1 bash -c "echo '\n' >> config/cassandra_ip.txt && ip -4 -o address >> config/cassandra_ip.txt"
-                    docker exec -i big_data_third_lab-model-1 bash -c "scripts/cassandra.sh"
-                    docker compose stop
-                    '''
+                    sh 'docker start big_data_third_lab-model-1'
+                    
+                    echo "Waiting 60 seconds for entrypoint script"
+                    sleep 60
+                    
+                    sh  '''
+                        docker start big_data_third_lab-cassandra-1
+                        docker exec big_data_third_lab-cassandra-1 bash -c "echo '\n' >> config/cassandra_ip.txt && ip -4 -o address >> config/cassandra_ip.txt"
+                        docker exec -i big_data_third_lab-model-1 bash -c "scripts/cassandra.sh"
+                        docker compose stop
+                        '''
+                    }
                 }
             }
             
