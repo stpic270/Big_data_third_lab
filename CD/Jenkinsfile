@@ -36,9 +36,9 @@ options {
             steps{
                 sh 'docker network create third_lab && docker volume create third_lab'
                 sh 'docker run -v third_lab:/app/test --name model --network third_lab -d -t stpic270/bd-thl-d'
-                
-                echo "Waiting 60 seconds for entrypoint script"
-                sleep 60
+
+                echo "Waiting 30 seconds for entrypoint script"
+                sleep 30
                 
                 sh  '''
                     docker run -v third_lab:/config --name cassandra --network third_lab -d -t -e JAVA_TOOL_OPTIONS="-Xmx1024m" --memory 1.2g stpic270/bd-secl-cassandra
