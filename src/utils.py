@@ -93,8 +93,8 @@ def get_credentials():
 
 def get_ip(credentials, pattern):
     with open('test/cassandra_ip.txt', 'r') as ip:
-        for line in ip:
-            if '172.' in line:
+        for i, line in enumerate(ip):
+            if '172.' in line or i==2:
                 sp = re.findall(pattern, line)
                 credentials.append(sp[0])
         ip.close 
