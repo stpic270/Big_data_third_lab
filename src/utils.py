@@ -64,6 +64,7 @@ def graphic(y_test, y_pred, savepath=None):
     else:
         plt.savefig(savepath)
 
+# Execute query 
 def executions(ses, q):
   flag=True
   while flag==True:
@@ -102,6 +103,8 @@ def get_ip(credentials, pattern):
     return credentials
 
 def create_table(folder, session):
+
+  # Make query to create namespace
   folder = folder.lower()
   s = "CREATE KEYSPACE IF NOT EXISTS WITH REPLICATION={'class':'SimpleStrategy', 'replication_factor':5};"
   s = s.split()
@@ -109,13 +112,14 @@ def create_table(folder, session):
   s = ' '.join(s)
 
   executions(session, s)
-  # Connect to music_store
+  # Connect to namespace
   executions(session, f"USE {folder};")
   path = f'test/{folder}'
   if not os.path.exists(path):
     print(f'There is not folder {folder} hence there are not csv files of {folder} model to import to cassandra')
     return None
 
+  # List over csv files, create tables and transport data to cassandra
   for file in os.listdir(path):
 
     path_f = f'test/{folder}/{file}'
@@ -141,6 +145,7 @@ def create_table(folder, session):
     #closing the file
     fares.close()
 
+  # Read table data from svm namespace
   if folder == 'svm':
     print('Example of The following lines in cassandra database of svm model')
     rows = session.execute(f"SELECT * FROM {file}")
